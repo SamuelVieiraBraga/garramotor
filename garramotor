@@ -1,0 +1,60 @@
+
+#include <Servo.h>
+  Servo g;
+  int ab = 0;
+ 
+
+#include <Ultrasonic.h>
+
+#define TRIGGER_PIN  12
+#define ECHO_PIN     13
+
+
+Ultrasonic ultrasonic(TRIGGER_PIN, ECHO_PIN);
+
+void setup()
+  {
+  Serial.begin(9600);
+
+   g.attach(6);
+  }
+
+void loop()
+  {
+    
+    int cmMsec, inMsec;
+  long microsec = ultrasonic.timing();
+
+  cmMsec = ultrasonic.convert(microsec, Ultrasonic::CM);
+
+  Serial.println(cmMsec);
+  Serial.println();
+  delay(10);
+  long distancia = cmMsec;
+  
+  
+   
+  abreGarra(distancia);
+  fechaGarra(distancia);
+  
+  }
+ 
+  
+  void abreGarra(long distancia){
+   /* for (Ab = 0; Ab <= 0; Ab += 1) {
+    g.write(Ab);
+    delay(20);
+    */
+     
+       if (distancia <= 8) {
+       g.write(0);
+        }
+   }
+
+
+  void fechaGarra(long distancia){
+    if(distancia >= 9){
+      g.write(80);
+    }
+    
+  }
